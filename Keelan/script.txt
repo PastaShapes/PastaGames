@@ -1,0 +1,33 @@
+# INTRO_MEETING
+Hero: Hello there! Is this the right place?
+Wizard: Indeed it is. [pause:0.5] Welcome to the engine.
+Hero: It looks a bit... [speed:0.2] pixelated. [speed:0.1]
+
+# WIZARD_QUEST
+Wizard: I need you to find the Red Square.
+Hero: I think I saw it moving to the right earlier.
+Wizard: Excellent. Go forth!
+
+# DESC_BED
+: It's your bed. Would you like to sleep?
+
+# DESC_PC
+: Gaming setup - everything is overused.
+
+# DESC_SHOWER
+: Shower - it's unused.
+
+# DESC_MESS
+: It's a mess.
+
+# DESC_TV
+: It's a broken TV.
+
+# DESC_BOXOFJUNK
+: It's a box of old games, consoles, and junk.
+
+# DESC_BATH
+: It's a bath - it's unused.
+
+# DESC_CURTAINS
+: Curtains - they're always closed.
