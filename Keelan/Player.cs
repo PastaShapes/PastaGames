@@ -170,5 +170,43 @@ namespace Keelan
         // 3. HURTBOX (Full Body)
         // Used for: Touching enemies, getting shot
         public Rectangle Hurtbox => new Rectangle((int)Position.X, (int)Position.Y, Size, Size);
+
+        public void FaceDirection(string directionName)
+        {
+            // 1. Sanitize the input (handle "Forward" vs "forward")
+            string cleanName = directionName.ToLower();
+
+            // 2. Map Tiled names to your internal Animation names
+            switch (cleanName)
+            {
+                case "up":
+                case "back":   // Tiled might call it "Back"
+                    _lastDirection = "up";
+                    break;
+
+                case "left":
+                    _lastDirection = "left";
+                    break;
+
+                case "right":
+                    _lastDirection = "right";
+                    break;
+
+                case "down":
+                case "forward": // Tiled might call it "Forward"
+                case "front":
+                    _lastDirection = "down";
+                    break;
+
+                default:
+                    // If we sent gibberish, just ignore it or default to down
+                    return;
+            }
+
+            // 3. Force the Animator to update IMMEDIATELY
+            // This snaps the sprite to the correct standing frame before the screen even fades in.
+            _animator.Play(_lastDirection);
+            _animator.Stop();
+        }
     }
 }

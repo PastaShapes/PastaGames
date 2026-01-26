@@ -24,6 +24,8 @@ namespace Keelan
 
         protected Dictionary<string, List<DialogueLine>> _script;
 
+        public List<Region> Regions = new List<Region>();
+
         public override void Initialize()
         {
             // 1. Setup the Camera Defaults
@@ -120,10 +122,6 @@ namespace Keelan
                 SceneCamera.Limits = _roomBounds;
             }
 
-            // --- NEW: HANDLE RIGHT CLICK ---
-
-            // Check if Right Button was just pressed
-            // (You might want a helper 'Input' class for 'IsJustPressed', but raw check works for now)
             if ((mouseState.RightButton == ButtonState.Pressed || mouseState.LeftButton == ButtonState.Pressed) && !_dialogueUI.IsActive)
             {
                 foreach (var entity in _entities)
@@ -190,6 +188,12 @@ namespace Keelan
                     float bottomY = obj.Y - _player.Size;
 
                     _player.Position = new Vector2(centeredX, bottomY);
+
+                    if (!string.IsNullOrEmpty(obj.Name))
+                    {
+                        _player.FaceDirection(obj.Name);
+                    }
+
                     break;
 
                 case "Label":
@@ -204,6 +208,14 @@ namespace Keelan
 
                 case "Door":
                     // Logic for door transitions (add later)
+                    break;
+                case "Region":
+                    // Create a named region and add it to the list
+                    // (Remember to adjust Y coordinate if Tiled is Bottom-Left)
+                    Rectangle r = new Rectangle((int)obj.X, (int)obj.Y, (int)obj.Width, (int)obj.Height);
+
+                    Region region = new Region(obj.Name, r);
+                    Regions.Add(region);
                     break;
             }
         }

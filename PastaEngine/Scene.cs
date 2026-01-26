@@ -9,7 +9,7 @@ namespace PastaEngine
     {
         // The Master List of everything in this level
         protected List<Entity> _entities = new List<Entity>();
-        private List<Entity> _pendingEntities = new List<Entity>();
+        protected List<Entity> _pendingEntities = new List<Entity>();
 
         public ContentManager Content;
         public Camera SceneCamera = new Camera(); // <--- New Camera
@@ -19,6 +19,7 @@ namespace PastaEngine
         public List<Rectangle> Walls = new List<Rectangle>();
 
         public Texture2D BackgroundTexture;
+        public Texture2D MidgroundTexture;
         public Texture2D ForegroundTexture;
 
         public void AddObject(Entity obj)
@@ -79,9 +80,11 @@ namespace PastaEngine
             {
                 spriteBatch.Draw(BackgroundTexture, Vector2.Zero, Color.White);
             }
+            DrawMidground(spriteBatch);
             foreach (var e in _entities) if (e.IsVisible) e.Draw(spriteBatch);
-            if (ForegroundTexture != null)
-                spriteBatch.Draw(ForegroundTexture, Vector2.Zero, Color.White);
+            DrawForeground(spriteBatch);
+            //if (ForegroundTexture != null)
+            //    spriteBatch.Draw(ForegroundTexture, Vector2.Zero, Color.White);
             spriteBatch.End();
 
             // PASS 2: UI (We added this earlier!)
@@ -91,6 +94,19 @@ namespace PastaEngine
             );
             foreach (var e in _entities) if (e.IsVisible) e.DrawUI(spriteBatch);
             spriteBatch.End();
+        }
+
+        // Virtual methods so scenes can add fades
+        protected virtual void DrawMidground(SpriteBatch spriteBatch)
+        {
+            if (MidgroundTexture != null)
+                spriteBatch.Draw(MidgroundTexture, Vector2.Zero, Color.White);
+        }
+
+        protected virtual void DrawForeground(SpriteBatch spriteBatch)
+        {
+            if (ForegroundTexture != null)
+                spriteBatch.Draw(ForegroundTexture, Vector2.Zero, Color.White);
         }
 
         public void LoadLevelFromFile(string filePath)
@@ -109,15 +125,13 @@ namespace PastaEngine
                     string cleanName = System.IO.Path.GetFileNameWithoutExtension(layer.Image);
                     Texture2D tex = Content.Load<Texture2D>("Backgrounds/" + cleanName);
 
-                    // CHECK: Is this the specific "Foreground" layer?
-                    if (layer.Name == "Foreground")
+                    if (layer.Name == "Background")
+                    {
+                        BackgroundTexture = tex;
+                    }
+                    else if (layer.Name == "Foreground")
                     {
                         ForegroundTexture = tex;
-                    }
-                    else
-                    {
-                        // If it's not named Foreground, assume it's the background
-                        BackgroundTexture = tex;
                     }
                 }
 
@@ -144,5 +158,7 @@ namespace PastaEngine
         }
 
         protected virtual void HandleLevelObject(TiledObject obj) { }
+
+
     }
 }

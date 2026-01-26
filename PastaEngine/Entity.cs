@@ -23,6 +23,11 @@ namespace PastaEngine
 
         // -- VIRTUAL METHODS (Override these in your specific classes) --
 
+        public virtual Rectangle Bounds
+        {
+            get { return new Rectangle((int)Position.X, (int)Position.Y, 0, 0); }
+        }
+
         // Called immediately when added to the scene
         public virtual void Initialize() { }
 

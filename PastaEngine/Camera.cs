@@ -18,6 +18,17 @@ namespace PastaEngine
         // If null, the camera has no limits.
         public Rectangle? Limits { get; set; }
 
+        public void LookAt(Vector2 position)
+        {
+            Position = position;
+        }
+
+        // Overload for individual coordinates if needed
+        public void LookAt(float x, float y)
+        {
+            Position = new Vector2(x, y);
+        }
+
         // This matrix is the "lens" we look through
         public Matrix GetTransform(GraphicsDevice graphicsDevice)
         {

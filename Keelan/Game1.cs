@@ -41,7 +41,7 @@ namespace Keelan
             SceneManager.Initialize(Content);
 
             //SceneManager.LoadScene(new TestScene());
-            SceneManager.LoadScene(new Bedroom());
+            SceneManager.LoadScene(new PizzaScene());
         }
 
         protected override void Update(GameTime gameTime)
